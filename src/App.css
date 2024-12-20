@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+
+.ticker-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+}
+
+.ticker {
+  display: inline-block;
+  animation: scroll 30s linear infinite;
+}
+
+.ticker span {
+  display: inline-block;
+  margin-right: 50px; /* Space between items */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

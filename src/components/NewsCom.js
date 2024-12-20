@@ -8,7 +8,7 @@ export class newscom extends Component {
 
     return (
       <div>
-        <div className="card" style={{width: "24rem"}}>
+        <div className="card" style={{width: "18rem"}}>
         <img src={ImgUrl} className="card-img-top" alt="..."/>
         <div className="card-body">
             <h5 className="card-title">{title}...</h5>
