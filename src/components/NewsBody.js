@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NewsCom from './NewsCom';
-
+import Spinner from './Loader';
 export class NewsBody extends Component {
   articles=[];
   tick_art=[];
@@ -12,6 +12,7 @@ export class NewsBody extends Component {
       tick_art:this.tick_art,
       articles:this.articles,
       page: this.page,
+      loading:false
     }
   };
 
@@ -19,22 +20,26 @@ export class NewsBody extends Component {
   async componentDidMount(){
     console.log("component did mount");
 
-    let url ="https://newsapi.org/v2/top-headlines?apiKey=0e90f373ab3f4b0f9c8aafa82c3be839&q=india&page=1&pageSize=20";
+    let url ="https://newsapi.org/v2/top-headlines?apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&q=india&page=1&pageSize=8";
 
-    let url2="https://newsapi.org/v2/everything?q=stocks+in&apiKey=0e90f373ab3f4b0f9c8aafa82c3be839";
+    let url2="https://newsapi.org/v2/everything?q=stocks+in&apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4";
+    this.setState({loading:true});
     let data = await fetch(url);
     let data2= await fetch(url2);
     let parsedData= await data.json();
     let parsedData2 = await data2.json();
     console.log(parsedData);
     this.setState({articles:parsedData.articles,
-      tick_art:parsedData2.articles
+      tick_art:parsedData2.articles,
+      loading:false
+
     })
   }
 
   handleNext = async  ()=>{
     console.log("next");
-    let url =`https://newsapi.org/v2/top-headlines?apiKey=0e90f373ab3f4b0f9c8aafa82c3be839&q=india&page=${this.state.page+1}&pageSize=20`;
+    let url =`https://newsapi.org/v2/top-headlines?apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&q=india&page=${this.state.page+1}&pageSize=8`;
+    this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData);
@@ -42,12 +47,14 @@ export class NewsBody extends Component {
     this.setState({
       page: this.state.page+1,
       articles:parsedData.articles,
+      loading:false
     })
 
   }
 
   handleBack = async ()=>{
-    let url =`https://newsapi.org/v2/top-headlines?apiKey=0e90f373ab3f4b0f9c8aafa82c3be839&q=india&page=${this.state.page-1}&pageSize=20`;
+    let url =`https://newsapi.org/v2/top-headlines?apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&q=india&page=${this.state.page-1}&pageSize=8`;
+    this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData);
@@ -55,6 +62,7 @@ export class NewsBody extends Component {
     this.setState({
       page: this.state.page-1,
       articles:parsedData.articles,
+      loading:false
     })
   }
   render() {
@@ -70,6 +78,7 @@ export class NewsBody extends Component {
    })}
 </div>
         <h2 className="text-center">Top Headlines of the day</h2>
+        {this.state.loading && <Spinner/>}
 
         <div className="container d-flex justify-content-between">
       <button disabled={this.state.page<=1} onClick={this.handleBack} style={{borderRadius:"20px"}} type="button" className="btn btn-dark">&larr; Previous</button>
@@ -78,9 +87,9 @@ export class NewsBody extends Component {
 
         
     <div className="row my-2">
-    {this.state.articles.map((element)=>{
+    {!this.state.loading && this.state.articles.map((element)=>{
       return <div className="col-md-3 my-3" key ={element.url}>
-      <NewsCom   des={element.description?element.description.slice(0,80):""} title={element.title?element.title.slice(0,50):""} ImgUrl={element.urlToImage} NewsUrl={element.url}/>
+      <NewsCom source ={element.source.name} author={element.author} update={element.publishedAt}  des={element.description?element.description.slice(0,80):""} title={element.title?element.title.slice(0,50):""} ImgUrl={element.urlToImage} NewsUrl={element.url}/>
       </div>
 
 
