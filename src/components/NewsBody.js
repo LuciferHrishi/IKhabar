@@ -5,7 +5,7 @@ export class NewsBody extends Component {
   articles=[];
   tick_art=[];
   page=1;
-  constructor(){
+  constructor(props){
     super();
     
     this.state={
@@ -19,6 +19,7 @@ export class NewsBody extends Component {
 
   async componentDidMount(){
     console.log("component did mount");
+    this.props.setProgress(10);
 
     let url ="https://newsapi.org/v2/top-headlines?apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&q=india&page=1&pageSize=8";
 
@@ -26,9 +27,12 @@ export class NewsBody extends Component {
     this.setState({loading:true});
     let data = await fetch(url);
     let data2= await fetch(url2);
+    this.props.setProgress(30);
     let parsedData= await data.json();
     let parsedData2 = await data2.json();
+    this.props.setProgress(70);
     console.log(parsedData);
+    this.props.setProgress(100);
     this.setState({articles:parsedData.articles,
       tick_art:parsedData2.articles,
       loading:false
@@ -79,13 +83,10 @@ export class NewsBody extends Component {
 </div>
         <h2 className="text-center">Top Headlines of the day</h2>
         {this.state.loading && <Spinner/>}
-
         <div className="container d-flex justify-content-between">
       <button disabled={this.state.page<=1} onClick={this.handleBack} style={{borderRadius:"20px"}} type="button" className="btn btn-dark">&larr; Previous</button>
       <button disabled={this.state.page +1 >Math.ceil(this.state.totalResults/20)} style={{borderRadius:"20px"}}  onClick={this.handleNext} type="button" className="btn btn-dark">Next &rarr;</button>
     </div>
-
-        
     <div className="row my-2">
     {!this.state.loading && this.state.articles.map((element)=>{
       return <div className="col-md-3 my-3" key ={element.url}>

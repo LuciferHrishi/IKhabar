@@ -9,7 +9,7 @@ export class newscom extends Component {
     return (
       <div>
         <div className="card" style={{width: "18rem"}}>
-        <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{zIndex:"1",left:"90%"}}>
+        <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{zIndex:"1",left:"90%"}}>
     {source}
   </span>
         <img src={ImgUrl} className="card-img-top" alt="..."/>

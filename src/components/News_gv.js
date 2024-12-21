@@ -20,10 +20,13 @@ export class News_gv extends Component {
       async componentDidMount(){
 
         console.log("cdm");
+        this.props.setProgress(10);
         let url="https://newsapi.org/v2/everything?q=politics+india&apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&page=1&pageSize=20";
         this.setState({loading:true});
         let data=await fetch(url);
+        this.props.setProgress(30);
         let parsedData=await data.json();
+        this.props.setProgress(100);
         this.setState({
             gv_articles:parsedData.articles,
             loading:false
@@ -34,12 +37,16 @@ export class News_gv extends Component {
 
       handleNext = async  ()=>{
         console.log("next");
+        this.props.setProgress(10);
         let url =`https://newsapi.org/v2/everything?q=politics+india&apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&page=${this.state.page+1}&pageSize=20`;
         this.setState({loading:true});
         let data = await fetch(url);
+        this.props.setProgress(30);
         let parsedData = await data.json();
         console.log(parsedData);
+        this.props.setProgress(70);
         console.log("next button clicked");
+        this.props.setProgress(100);
         this.setState({
           page: this.state.page+1,
           gv_articles:parsedData.articles,

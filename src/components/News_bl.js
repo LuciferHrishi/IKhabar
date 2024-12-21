@@ -9,11 +9,15 @@ export default function News_bl(props) {
 
   useEffect(() => {
     const fetchNews = async () => {
+      props.setProgress(10);
       const url = "https://newsapi.org/v2/everything?q=bollywood+india&apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&page=1&pageSize=20";
       setLoading(true);
       const data = await fetch(url);
+      props.setProgress(30);
       const parsedData = await data.json();
+      props.setProgress(70);
       setArticle(parsedData.articles);
+      props.setProgress(100);
       setLoading(false);
     };
 
@@ -24,16 +28,19 @@ export default function News_bl(props) {
     console.log('Next button clicked');
     const nxPage = page + 1; // Calculate the next page
     setPage(nxPage); // Calculate the next page number
+    props.setProgress(10);
     let url = `https://newsapi.org/v2/everything?q=bollywood+india&apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&page=${nxPage}&pageSize=20`;
-  
+
     try {
       setLoading(true);
       const data = await fetch(url);
       const parsedData = await data.json();
-  
+      props.setProgress(30);
       if (parsedData.articles) {
-        setPage(nxPage); // Update the page state only after a successful fetch
+        setPage(nxPage); 
+        props.setProgress(70);// Update the page state only after a successful fetch
         setArticle(parsedData.articles);
+        props.setProgress(100);
         setLoading(false);
         console.error('done'); // Update the articles state
       } else {
@@ -50,16 +57,20 @@ export default function News_bl(props) {
   
     const nxPage = page - 1; // Calculate the next page
     setPage(nxPage);
+    props.setProgress(10);
     let url = `https://newsapi.org/v2/everything?q=bollywood+india&apiKey=f4206a7f17cc4cd5aa6c137918e9ceb4&page=${nxPage}&pageSize=20`;
   
     try {
       setLoading(true);
       const data = await fetch(url);
       const parsedData = await data.json();
+      props.setProgress(30);
   
       if (parsedData.articles) {
-        setPage(nxPage); // Update the page state only after a successful fetch
+        setPage(nxPage);
+        props.setProgress(70); // Update the page state only after a successful fetch
         setArticle(parsedData.articles);
+        props.setProgress(100);
         setLoading(false);
         console.error('done'); // Update the articles state
       } else {
